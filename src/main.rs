@@ -1,6 +1,7 @@
 mod cli;
 mod path;
-mod read;
+mod from_file;
+mod from_stdin;
 use std::process::exit;
 use serde::Deserialize;
 use serde_json;
@@ -32,10 +33,18 @@ fn process_deps(deps_option: DepsItem, title: &str, found_any: &mut bool) {
     }
 }
 
+fn input_method(input: &str) -> String {
+    if input == "-" {
+        from_stdin::from_stdin()
+    } else {
+        let full_path = path::create_path(&input);
+        from_file::read_file(&full_path)
+    }
+}
+
 fn main() {
-    let path_input = cli::get_path_input();
-    let full_path = path::create_path(&path_input);
-    let contents = read::read_file(&full_path);
+    let input = cli::get_path_input();
+    let contents = input_method(&input);
     let parsed: PackageStructure = serde_json::from_str(&contents)
         .unwrap_or_else(|err| {
             eprintln!("JSON parsing error: {}", err);

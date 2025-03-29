@@ -10,7 +10,13 @@ node-deps ./path/to/package
 
 And see that directory's dependencies
 It looks up the current directory by default
-You can also include the package.json file in path if you want"#;
+You can also include the package.json file in path if you want
+
+Alternatively you can do:
+
+node-deps -
+
+For it to read the package.json contents from stdin"#;
 
 pub fn get_path_input() -> String {
     if let Some(input_arg) = std::env::args().nth(1) {
