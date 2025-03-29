@@ -1,14 +1,15 @@
-use std::path::Path;
+use std::path::PathBuf;
+use std::ffi::OsStr;
 
 const FILE_NAME: &str = "package.json";
 
-pub fn create_path(input: &str) -> Path {
-    let path = Path::new(input);
-    if path.file_name() == Some(str::ffi::OsStr::new(FILE_NAME)) {
-        // already includes the file
-        path
-    } else {
-        // if not then add this part
-        path.join(FILE_NAME)
+pub fn create_path(input: &str) -> String {
+    let mut path = PathBuf::from(input);
+    if path.file_name() != Some(OsStr::new(FILE_NAME)) {
+        // if not includes then add this part
+        path.push(FILE_NAME);
     }
+    path.to_str()
+        .expect("invalid UTF-8 in path")
+        .to_string()
 }

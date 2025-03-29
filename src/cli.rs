@@ -1,6 +1,6 @@
 const HELP_MESSAGE: &str = r#"Help wip"#;
 
-pub fn get_input_path() -> String {
+pub fn get_path_input() -> String {
     if let Some(input_arg) = std::env::args().nth(1) {
         if input_arg == "--help" || input_arg == "-h" {
             println!("{}", HELP_MESSAGE);
@@ -8,6 +8,6 @@ pub fn get_input_path() -> String {
         }
         input_arg
     } else {
-        String::new(".") // the default is this directory
+        String::from(".") // the default is this directory
     }
 }

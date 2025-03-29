@@ -1,3 +1,52 @@
+mod cli;
+mod path;
+mod read;
+use std::process::exit;
+use serde::Deserialize;
+use serde_json;
+
+type DepsItem = Option<std::collections::HashMap<String, String>>;
+
+#[derive(Deserialize)]
+#[serde(rename_all = "camelCase")]
+struct PackageStructure {
+    dependencies: DepsItem,
+    dev_dependencies: DepsItem,
+    optional_dependencies: DepsItem,
+    peer_dependencies: DepsItem,
+}
+
+fn process_deps(deps_option: DepsItem, title: &str, found_any: &mut bool) {
+    if let Some(deps) = deps_option {
+        if !deps.is_empty() {
+            if *found_any {
+                // add a little space between them
+                println!();
+            }
+            println!("{}", title);
+            for (package, version) in deps {
+                println!("\x1b[34m{}\x1b[0m \x1b[2m{}\x1b[0m", package, version);
+            }
+            *found_any = true;
+        }
+    }
+}
+
 fn main() {
-    println!("Hello, world!");
+    let path_input = cli::get_path_input();
+    let full_path = path::create_path(&path_input);
+    let contents = read::read_file(&full_path);
+    let parsed: PackageStructure = serde_json::from_str(&contents)
+        .unwrap_or_else(|err| {
+            eprintln!("{}", err);
+            exit(1);
+        });
+    let mut found_any = false;
+    process_deps(parsed.dependencies, "Dependencies", &mut found_any);
+    process_deps(parsed.dev_dependencies, "Dev Dependencies", &mut found_any);
+    process_deps(parsed.optional_dependencies, "Optional Dependencies", &mut found_any);
+    process_deps(parsed.peer_dependencies, "Peer Dependencies", &mut found_any);
+    if !found_any {
+        println!("\x1b[36m[no dependencies]\x1b[0m");
+    }
 }
