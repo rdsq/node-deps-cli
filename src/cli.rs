@@ -6,7 +6,7 @@ Simply run this command inside a Node package, and you will see its dependencies
 
 You can also add path like this:
 
-node deps ./path/to/package
+node-deps ./path/to/package
 
 And see that directory's dependencies. It looks up the current directory by default"#;
 
