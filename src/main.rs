@@ -38,7 +38,7 @@ fn main() {
     let contents = read::read_file(&full_path);
     let parsed: PackageStructure = serde_json::from_str(&contents)
         .unwrap_or_else(|err| {
-            eprintln!("{}", err);
+            eprintln!("JSON parsing error: {}", err);
             exit(1);
         });
     let mut found_any = false;
