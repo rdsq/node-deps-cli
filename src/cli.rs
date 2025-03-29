@@ -8,7 +8,9 @@ You can also add path like this:
 
 node-deps ./path/to/package
 
-And see that directory's dependencies. It looks up the current directory by default"#;
+And see that directory's dependencies
+It looks up the current directory by default
+You can also include the package.json file in path if you want"#;
 
 pub fn get_path_input() -> String {
     if let Some(input_arg) = std::env::args().nth(1) {
