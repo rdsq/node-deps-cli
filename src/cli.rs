@@ -19,7 +19,7 @@ node-deps -
 For it to read the package.json contents from stdin
 This way you can combine it with software like curl
 
-curl -s -L https://github.com/microsoft/vscode/raw/refs/heads/main/package.json | node-deps -"#;
+curl -s -L https://github.com/npm/cli/raw/refs/heads/latest/package.json | node-deps -"#;
 
 pub fn get_path_input() -> String {
     if let Some(input_arg) = std::env::args().nth(1) {
