@@ -1,0 +1,22 @@
+Montri la dependecojn de Node.js pakaĵo en mojosa maniero
+
+Uzmaniero: node-deps
+
+Simple faru tiun komandon en Node-a pakaĵo, kaj vi vidos ĝiajn dependecojn
+
+Vi ankaŭ povas aldoni dosierujon:
+
+node-deps ./vojo/al/pakaĵo
+
+Kaj vidi la dependecojn de tiu dosierujo
+Kutime, ĝi rigardas la aktualan dosierujon
+Vi ankaŭ povas inkluzivi la package.json dosieron en la vojo, sed tio ne necesas
+
+Alternative, vi povas fari:
+
+node-deps -
+
+Tiel, ĝi legos la enhavon de package.json el stdin
+Tiel vi povas kombini ĝin kun alia programaro, kiel curl
+
+curl -s -L https://github.com/npm/cli/raw/refs/heads/latest/package.json | node-deps -

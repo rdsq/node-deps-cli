@@ -1,3 +1,4 @@
+mod locale;
 mod cli;
 mod path;
 mod from_file;
@@ -33,18 +34,19 @@ fn process_deps(deps_option: DepsItem, title: &str, found_any: &mut bool) {
     }
 }
 
-fn input_method(input: &str) -> String {
+fn input_method(input: &str, locale_val: &locale::Locale) -> String {
     if input == "-" {
         from_stdin::from_stdin()
     } else {
         let full_path = path::create_path(&input);
-        from_file::read_file(&full_path)
+        from_file::read_file(&full_path, locale_val)
     }
 }
 
 fn main() {
-    let input = cli::get_path_input();
-    let contents = input_method(&input);
+    let locale_val = locale::get_locale();
+    let input = cli::get_path_input(&locale_val);
+    let contents = input_method(&input, &locale_val);
     let parsed: PackageStructure = serde_json::from_str(&contents)
         .unwrap_or_else(|err| {
             eprintln!("JSON parsing error: {}", err);
@@ -56,6 +58,9 @@ fn main() {
     process_deps(parsed.optional_dependencies, "Optional Dependencies", &mut found_any);
     process_deps(parsed.peer_dependencies, "Peer Dependencies", &mut found_any);
     if !found_any {
-        println!("\x1b[36m[no dependencies]\x1b[0m");
+        println!("\x1b[36m{}\x1b[0m", match locale_val {
+            locale::Locale::English => include_str!("texts/none-en.txt"),
+            locale::Locale::Esperanto => include_str!("texts/none-eo.txt"),
+        }.trim());
     }
 }
