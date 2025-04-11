@@ -3,6 +3,7 @@ mod cli;
 mod path;
 mod from_file;
 mod from_stdin;
+mod color;
 use std::process::exit;
 use serde::Deserialize;
 use serde_json;
@@ -27,7 +28,7 @@ fn process_deps(deps_option: DepsItem, title: &str, found_any: &mut bool) {
             }
             println!("{}", title);
             for (package, version) in deps {
-                println!("\x1b[34m{}\x1b[0m \x1b[2m{}\x1b[0m", package, version);
+                println!("{} {}", color::color("34", &package), color::color("2", &version));
             }
             *found_any = true;
         }
@@ -58,9 +59,9 @@ fn main() {
     process_deps(parsed.optional_dependencies, "Optional Dependencies", &mut found_any);
     process_deps(parsed.peer_dependencies, "Peer Dependencies", &mut found_any);
     if !found_any {
-        println!("\x1b[36m{}\x1b[0m", match locale_val {
+        println!("{}", color::color("36", &match locale_val {
             locale::Locale::English => include_str!("texts/none-en.txt"),
             locale::Locale::Esperanto => include_str!("texts/none-eo.txt"),
-        }.trim());
+        }.trim()));
     }
 }
