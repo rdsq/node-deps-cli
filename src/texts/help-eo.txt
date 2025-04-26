@@ -10,7 +10,7 @@ node-deps ./vojo/al/pakaĵo
 
 Kaj vidi la dependecojn de tiu dosierujo
 Kutime, ĝi rigardas la aktualan dosierujon
-Vi ankaŭ povas inkluzivi la package.json dosieron en la vojo, sed tio ne necesas
+Vi ankaŭ povas inkluzivi la dosieron en la vojo, sed tio ne necesas
 
 Alternative, vi povas fari:
 

@@ -10,7 +10,7 @@ node-deps ./path/to/package
 
 And see that directory's dependencies
 It looks up the current directory by default
-You can also include the package.json file in path, but it is not necessary
+You can also include the file in path, but it is not necessary
 
 Alternatively you can do:
 
