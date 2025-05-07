@@ -1,7 +1,9 @@
 use std::env;
+use std::io::{self, IsTerminal};
 
 fn should_use_color() -> bool {
-    atty::is(atty::Stream::Stdout) && env::var_os("NO_COLOR").is_none()
+    env::var_os("NO_COLOR").is_none()
+        && io::stdout().is_terminal()
 }
 
 pub fn color(code: &str, text: &str) -> String {
