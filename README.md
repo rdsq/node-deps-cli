@@ -1,6 +1,6 @@
 # `node-deps`
 
-`node-deps` ia a small (could also be considered polished) CLI that prints dependencies of a Node.js project in a nice and readable way
+`node-deps` is a small (could also be considered polished) CLI that prints dependencies of a Node.js project in a nice and readable way
 
 # Usage
 
